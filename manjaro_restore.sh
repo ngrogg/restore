@@ -2,6 +2,42 @@
 
 # A script used to restore a Manjaro system
 
+## Check if running as root
+if [ "$EUID" -ne 0 ]
+	then echo "Please run as root"
+	    exit
+else
+	echo "Script running as root!"
+fi
+
+echo "Pre-flight all clear"
+echo "Creating LAMP stack"
+echo "Press Control + C to quit at any time"
+
+## Reinstall old software 
+
+### Update system
+pacman -Syu
+
+### Install software
+pacman -Syu vim arandr recordmydesktop openshot virtualbox dosbox ppsspp dolphin-emu pcsx2 cmake linux58-virtualbox-host-modules
+
 ## Configure Snapd
 
+### Install snapd and enable it
+pacman -Syu snapd
+systemctl enable --now snapd.socket
+ln -s /var/lib/snapd/snap /snap
+
+###  Install snap software
+snap install snapd
+snap install mc-installer
+
 ## Restore config files 
+git clone https://gitlab.com/ngrogg/configs.git
+
+### Configure vim
+
+### Configure zsh
+
+## Restart system for changes to take effect
