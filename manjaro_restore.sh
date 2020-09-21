@@ -17,12 +17,14 @@ echo "Press Control + C to quit at any time"
 ## Reinstall old software 
 
 ### Update system
+echo "Updating system"
 pacman -Syu
 
 ### Install software
 pacman -Syu vim arandr recordmydesktop openshot virtualbox dosbox ppsspp dolphin-emu pcsx2 cmake linux58-virtualbox-host-modules
 
 ## Configure Snapd
+echo "Configuring Snapd"
 
 ### Install snapd and enable it
 pacman -Syu snapd
@@ -34,10 +36,28 @@ snap install snapd
 snap install mc-installer
 
 ## Restore config files 
+echo "Restoring the system config files"
+cd ~/Documents/gits
 git clone https://gitlab.com/ngrogg/configs.git
+cd
 
 ### Configure vim
+echo "Configuring VIM"
+
+#### Copy vimrc
+cp ~/Documents/gits/configs/Desktop Configs/vimrc ~/.vimrc
+
+#### Configure plugged
+vim
 
 ### Configure zsh
+echo "Configuring ZSH" 
 
-## Restart system for changes to take effect
+#### Create folders for history file
+mkdir ~/.zsh/cache/
+touch ~/.zsh/cache/history
+
+#### Copy zshrc
+cp ~/Documents/gits/configs/Desktop Configs/zshrc ~/.zshrc
+
+## Prompt for restart for changes to take effect
