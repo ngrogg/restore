@@ -21,6 +21,7 @@ echo "Updating system"
 pacman -Syu
 
 ### Install software
+echo "Installing old software"
 pacman -Syu vim arandr recordmydesktop openshot virtualbox dosbox ppsspp dolphin-emu pcsx2 cmake linux58-virtualbox-host-modules
 
 ## Configure Snapd
@@ -47,7 +48,7 @@ echo "Configuring VIM"
 #### Copy vimrc
 cp ~/Documents/gits/configs/Desktop Configs/vimrc ~/.vimrc
 
-#### Configure plugged
+#### Configure plugged (Unfinished)
 vim
 
 ### Configure zsh
@@ -60,4 +61,5 @@ touch ~/.zsh/cache/history
 #### Copy zshrc
 cp ~/Documents/gits/configs/Desktop Configs/zshrc ~/.zshrc
 
-## Prompt for restart for changes to take effect
+## Restart for changes to take effect
+reboot
