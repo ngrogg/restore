@@ -102,3 +102,6 @@ cp ~/Documents/gits/la-notes/restorewiki.sh ~/.scripts/wikifromgit.sh
 #### Add aliases to zshrc
 echo "alias wikitogit='bash ~/.scripts/backupwiki.sh'" >> ~/.zshrc
 echo "alias wikifromgit='bash ~/.scripts/restorewiki.sh'" >> ~/.zshrc
+
+## Reboot system
+reboot

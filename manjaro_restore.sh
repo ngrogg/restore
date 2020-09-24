@@ -48,13 +48,17 @@ echo "Configuring VIM"
 #### Copy vimrc
 cp ~/Documents/gits/configs/Desktop Configs/vimrc ~/.vimrc
 
-#### Configure plugged (Unfinished)
-vim
+#### Configure plugged
+vim 
+cd
+cd .vim/plugged/YouCompleteMe
+python3 install.py --clangd-completer
 
 ### Configure zsh
 echo "Configuring ZSH" 
 
 #### Create folders for history file
+mkdir ~/.zsh
 mkdir ~/.zsh/cache/
 touch ~/.zsh/cache/history
 
