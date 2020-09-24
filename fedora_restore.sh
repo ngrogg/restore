@@ -20,11 +20,13 @@ echo "Press Control + C to quit at any time"
 dnf update -y && dnf upgrade -y
 
 ### Install repo software 
-dnf install zsh git autokey-gtk redshift cmake gcc-c++ make python3-devel snapd python3-SecretStorage python3-crypto python3-cryptography python3-keyring python3-psutil python3-qt5 python3-requests-kerberos speedtest-cli neofetch gimp -y
+dnf install zsh git autokey-gtk redshift cmake gcc-c++ make python3-devel python3-SecretStorage python3-crypto python3-cryptography python3-keyring python3-psutil python3-qt5 python3-requests-kerberos speedtest-cli neofetch gimp -y
 
 ### Install rpm software
 
 ### Enable SNAP store 
+dnf install snapd -y
+ln -s /var/lib/snapd/snap /snap/
 
 ### Install SNAP store software 
 snap install google-cloud-sdk --classic
@@ -33,6 +35,7 @@ snap install google-cloud-sdk --classic
 
 #### Install Nagstamon
 echo "Downloading and installing Nagstamon"
+#wget
 echo "Nagstamon will still need configured"
 
 #### Install MotionPro
