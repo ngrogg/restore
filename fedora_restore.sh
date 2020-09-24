@@ -17,16 +17,31 @@ echo "Press Control + C to quit at any time"
 ## Update system and reinstall software
 
 ### Update system
+dnf update -y && dnf upgrade -y
 
-### Install software 
+### Install repo software 
+dnf install zsh git autokey-gtk redshift cmake gcc-c++ make python3-devel snapd python3-SecretStorage python3-crypto python3-cryptography python3-keyring python3-psutil python3-qt5 python3-requests-kerberos speedtest-cli neofetch gimp -y
+
+### Install rpm software
 
 ### Enable SNAP store 
 
 ### Install SNAP store software 
+snap install google-cloud-sdk --classic
 
-### Install non-repo software 
+### Install non-repo and non-RPM software 
+
+#### Install Nagstamon
+echo "Downloading and installing Nagstamon"
+echo "Nagstamon will still need configured"
 
 #### Install MotionPro
+echo "Downloading and installing MotionPro"
+cd ~/Downloads
+wget https://www.hipaavault.com/ArrayNetworks/MotionPro_Linux_RedHat_x86-64_1.2.3.sh
+chmod +x MotionPro_Linux_RedHat_x86-64_1.2.3.sh
+bash MotionPro_Linux_RedHat_x86-64_1.2.3.sh
+echo "MotionPro will still need configured"
 
 ## Clone config repo
 
