@@ -3,7 +3,19 @@
 # A BASH script used to restore my Slackware system
 # This script is designed to run on Slackware 14.2 
 
-## Check if the user is root
+## Check if running as root
+if [ "$EUID" -ne 0 ]
+	then echo "Please run as root"
+	    exit
+else
+	echo "Script running as root!"
+fi
+
+echo "Pre-flight all clear"
+echo "Creating LAMP stack"
+echo "Press Control + C to quit at any time"
+
+## Reinstall old software 
 
 ## Configure Slackpkg mirror
 
