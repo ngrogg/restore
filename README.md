@@ -9,5 +9,7 @@ Feel free to download them and make them your own. <br>
 When run as root the script creates an Admin user, enables the EPEL repo, installs Apache, MariaDB, PHP 
 and tools used by the system. During execution Services are enabled, and the firewall is configured. 
 Finally, the script creates an empty MariaDB database with the name provided by the user. <br>
+**debian_lamp.sh***, a first attempt to create a LAMP stack on Debian.
 **manjaro_restore.sh**, an in progress script used to restore my Manjaro system.
-
+**slackware_restore.sh**, a script to restore my Slackware system
+**fedora_restore.sh**, a script to restore my Fedora system

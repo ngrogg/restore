@@ -24,6 +24,10 @@ echo "Press Control + C to quit at any time"
 
 ### Install SNAP store software 
 
+### Install non-repo software 
+
+#### Install MotionPro
+
 ## Clone config repo
 
 ### Copy vimrc
