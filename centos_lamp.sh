@@ -90,3 +90,6 @@ read rootPass
 
 echo "Creating database"
 mysql --user=root --password="$rootpass" -e "CREATE DATABASE $databaseName"
+
+## PHP
+### Create sample php webpage
