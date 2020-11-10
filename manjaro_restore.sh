@@ -22,7 +22,7 @@ pacman -Syu
 
 ### Install software
 echo "Installing old software"
-pacman -Syu vim arandr recordmydesktop openshot virtualbox dosbox ppsspp dolphin-emu pcsx2 cmake linux58-virtualbox-host-modules unrar
+pacman -Syu vim arandr simplescreenrecorder openshot virtualbox dosbox ppsspp dolphin-emu pcsx2 cmake linux58-virtualbox-host-modules unrar
 
 ## Configure Snapd
 echo "Configuring Snapd"
