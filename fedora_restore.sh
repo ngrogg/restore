@@ -1,6 +1,13 @@
 #!/usr/bin/bash
 
 # A BASH script used to restore my Fedora system
+## TODO
+# Resolve section issues
+# Resolve permission issues
+## zsh
+## vim 
+## vimwiki
+## gits
 
 ## Check if running as root
 if [ "$EUID" -ne 0 ]
@@ -62,11 +69,12 @@ bash MotionPro_Linux_RedHat_x86-64_1.2.3.sh
 echo "MotionPro will still need configured"
 
 ## Clone config repo
+### Permissions
 echo "Cloning config repo"
 cd /home/$username/Documents/
 mkdir gits
 cd gits
-git clone https://gitlab.com/$username/configs.git
+git clone https://gitlab.com/ngrogg/configs.git
 
 ### Copy vimrc and zshrc
 echo "Copying vimrc and zshrc"
@@ -75,6 +83,7 @@ cp Desktop\ Configs/vimrc /home/$username/.vimrc
 cp Desktop\ Configs/zshrc /home/$username/.zshrc
 
 ### Configure zsh
+#### Review this section
 echo "Configuring zsh"
 echo "Use tab for fuzzy autocomplete"
 sleep 5
@@ -85,12 +94,14 @@ touch /home/$username/.zsh/cache/history
 sed -i "s/\/home\/$username\:\/usr\/bin\/bash/\/home\/$username\:\/usr\/bin\/zsh/g" /etc/passwd
 
 ### Open vim to trigger installation of plugins 
+#### Review that section
 cd /home/$username
 echo "Quit vim after installation finishes"
 sleep 5
 vim .vimrc
 
 ### Install YouCompleteMe
+#### Review that section
 echo "Installing YouCompleteMe"
 cd .vim/plugged/YouCompleteMe/
 python3 install.py --clangd-completer
@@ -98,7 +109,8 @@ python3 install.py --clangd-completer
 ## Configure vim wiki and linux academy repo
 
 ### Clone vimwiki notes repo
-echo "Cloning notes to from git repo"
+#### Permissions
+echo "Cloning notes from git repo"
 cd /home/$username/Documents/gits
 git clone https://github.com/ngrogg360/notes.git
 
@@ -109,16 +121,17 @@ mkdir vimwiki
 #### Copy vimwiki
 echo "Copying vimwiki"
 echo "Access vimwiki by opening vi and pressing \ w w"
+sleep 5
 cp /home/$username/Documents/gits/notes/*.wiki ~/vimwiki
 
 #### Copy wikito/wikifrom scripts
 echo "Copying scripts from configs"
 mkdir /home/$username/.scripts
 if [ "$username" == "ngrogg" ]; then
-	cp /home/$username/Documents/gits/la-notes/backupwiki.sh ~/.scripts/wikitogit.sh
-	cp /home/$username/Documents/gits/la-notes/restorewiki.sh ~/.scripts/wikifromgit.sh
+	cp /home/$username/Documents/gits/notes/backupwiki.sh /home/$username/.scripts/wikitogit.sh
+	cp /home/$username/Documents/gits/notes/restorewiki.sh /home/$username/.scripts/wikifromgit.sh
 else
-	cp /home/$username/Documents/gits/la-notes/restorewiki.sh ~/.scripts/wikifromgit.sh
+	cp /home/$username/Documents/gits/notes/restorewiki.sh /home/$username/.scripts/wikifromgit.sh
 fi
 
 #### Add aliases to zshrc
@@ -126,10 +139,8 @@ echo "Adding aliases to zshrc"
 if [ "$username" == "ngrogg" ]; then
 	echo "alias wikitogit='bash ~/.scripts/wikitogit.sh'" >> /home/$username/.zshrc
 	echo "alias wikifromgit='bash ~/.scripts/wikifromgit.sh'" >> /home/$username/.zshrc
-	echo "alias vi=vim" >> /home/$username/.zshrc
 else
 	echo "alias wikifromgit='bash ~/.scripts/wikifromgit.sh'" >> /home/$username/.zshrc
-	echo "alias vi=vim" >> /home/$username/.zshrc
 fi
 
 ## Reboot system
