@@ -82,7 +82,7 @@ cd /home/$username
 mkdir /home/$username/.zsh/
 mkdir /home/$username/.zsh/cache
 touch /home/$username/.zsh/cache/history
-sed -i "s/\/home\/$username\:\/usr\/bin\/zsh/\/home\/$username\:\/usr\/bin\/bash/g" /etc/passwd
+sed -i "s/\/home\/$username\:\/usr\/bin\/bash/\/home\/$username\:\/usr\/bin\/zsh/g" /etc/passwd
 
 ### Open vim to trigger installation of plugins 
 cd /home/$username
