@@ -93,3 +93,6 @@ mysql --user=root --password="$rootpass" -e "CREATE DATABASE $databaseName"
 
 ## PHP
 ### Create sample php webpage
+echo "<?php" >> /var/www/html/phpinfo.php
+echo "phpinfo();" >> /var/www/html/phpinfo.php
+echo "?>" >> /var/www/html/phpinfo.php
