@@ -144,6 +144,7 @@ else
 fi
 
 ## Reboot system
-echo "Intial configuration complete, system will reboot in 5 seconds"
+#echo "Intial configuration complete, system will reboot in 5 seconds"
+echo "Initial configuration complete, reboot system to finish configuration"
 sleep 5
-reboot
+#reboot
