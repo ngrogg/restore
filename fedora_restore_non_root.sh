@@ -2,46 +2,41 @@
 
 # A BASH script used to restore my Fedora system
 # A version of the script designed to be run as a non-root user
-
-## TODO
-# Add check for each section (Ask user if they want vim, zsh, notes etc.)
-# Resolve section issues
-# Resolve permission issues
-## zsh
-## vim 
-## vimwiki
-## gits
-
-## Check if running as root
-if [ "$EUID" -ne 0 ]
-	then echo "Please run as root"
-	    exit
-else
-	echo "Script running as root!"
-	echo "This is good!"
-fi
-
-echo "Pre-flight all clear"
-echo "Creating LAMP stack"
-echo "Press Control + C to quit at any time"
+# This should be considered the MKII version
 
 ## Enter username to configure
 ### Assign output from bash command to variable
+username=$(whoami)
 echo "Some configurations are user specific" 
-echo "Enter a username to configure:"
-read username
-
+echo "Configuring for user $username"
+echo "Ensure this user has sudo access"
 
 ### Check for username, confirm if user to use 
+echo "Do you want to configure for this user? y/n"
+read confirm
+
+if [ "$confirm" == "y" || "$confirm" == "Y" ]; then
+	echo "Continue"
+else
+	echo "Exiting"
+	exit
+fi
 
 ## Update system and reinstall software
+echo "Preparing to install Chrome, MotionPro, Nagstamon, Autokey and more"
+echo "Do you want to install software? y/n"
+read confirm
+
+if [ "$confirm" == "y" || "$confirm" == "Y" ]; then
+echo "Installing software"
+
 ### Update system
 echo "Updating system"
-dnf update -y && dnf upgrade -y
+sudo dnf update -y && sudo dnf upgrade -y
 
 ### Install repo software 
 echo "Installing essential software"
-dnf install liberation-fonts-1:2.1.0-1.fc32.noarch python3 qt5 zsh git autokey-gtk redshift cmake gcc-c++ make python3-devel python3-SecretStorage python3-crypto python3-cryptography python3-keyring python3-psutil python3-qt5 python3-requests-kerberos speedtest-cli neofetch gimp -y
+sudo dnf install liberation-fonts-1:2.1.0-1.fc32.noarch python3 qt5 zsh git autokey-gtk redshift cmake gcc-c++ make python3-devel python3-SecretStorage python3-crypto python3-cryptography python3-keyring python3-psutil python3-qt5 python3-requests-kerberos speedtest-cli neofetch gimp -y
 
 ### Install rpm software
 
@@ -49,22 +44,22 @@ dnf install liberation-fonts-1:2.1.0-1.fc32.noarch python3 qt5 zsh git autokey-g
 cd /home/$username/Downloads
 echo "Downloading and installing Google Chrome"
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-rpm -Uhv google-chrome-stable_current_x86_64.rpm
+sudo rpm -Uhv google-chrome-stable_current_x86_64.rpm
 
 #### Download and Install Nagstamon
 echo "Downloading and installing Nagstamon"
 wget https://nagstamon.ifw-dresden.de/files/stable/nagstamon-3.4.1.fedora32-1.src.rpm
-rpm -Uhv nagstamon-3.4.1.fedora32-1.src.rpm
+sudo rpm -Uhv nagstamon-3.4.1.fedora32-1.src.rpm
 echo "Nagstamon will still need configured"
 
 ### Enable SNAP classic
 echo "Installing snap store"
-dnf install snapd -y
-ln -s /var/lib/snapd/snap /snap/
+sudo dnf install snapd -y
+sudo ln -s /var/lib/snapd/snap /snap/
 
 ### Install SNAP store software 
 echo "Google Cloud SDK"
-snap install google-cloud-sdk --classic
+sudo snap install google-cloud-sdk --classic
 
 ### Install non-repo and non-RPM software 
 #### Install MotionPro
@@ -72,11 +67,24 @@ echo "Downloading and installing MotionPro"
 cd /home/$username/Downloads
 wget https://www.hipaavault.com/ArrayNetworks/MotionPro_Linux_RedHat_x86-64_1.2.3.sh
 chmod +x MotionPro_Linux_RedHat_x86-64_1.2.3.sh
-bash MotionPro_Linux_RedHat_x86-64_1.2.3.sh
+sudo bash MotionPro_Linux_RedHat_x86-64_1.2.3.sh
 echo "MotionPro will still need configured"
+echo "Autokey will still need to be configured"
+echo "redshift will still need to be configured"
+
+#### If user doesn't want to install software
+else
+echo "Skipping"
+echo "This is not recommended..."
+fi
+
 
 ## Clone config repo
-### Permissions
+echo "Preparing to clone notes, vim configurations and zsh configurations"
+echo "Do you want the configurations? y/n"
+read confirm
+
+if [ "$confirm" == "y" || "$confirm" == "Y" ]; then
 echo "Cloning config repo"
 cd /home/$username/Documents/
 mkdir gits
@@ -84,13 +92,25 @@ cd gits
 git clone https://gitlab.com/ngrogg/configs.git
 
 ### Copy vimrc and zshrc
-echo "Copying vimrc and zshrc"
+echo "Copying vimrc and zshrc config files"
 cd configs 
 cp Desktop\ Configs/vimrc /home/$username/.vimrc
 cp Desktop\ Configs/zshrc /home/$username/.zshrc
 
+else
+echo "Initial configuration complete, reboot system to finish configuration"
+sleep 5
+exit
+fi
+
 ### Configure zsh
-#### Review this section
+echo "Preparing to configure zsh"
+echo "Do you want ZSH installed? y/n"
+read confirm
+
+#### Copy config files and edit passwd
+if [ "$confirm" == "y" || "$confirm" == "Y" ]; then
+zshYes="yes"
 echo "Configuring zsh"
 echo "Use tab for fuzzy autocomplete"
 sleep 5
@@ -100,9 +120,31 @@ mkdir /home/$username/.zsh/cache
 touch /home/$username/.zsh/cache/history
 sed -i "s/\/home\/$username\:\/usr\/bin\/bash/\/home\/$username\:\/usr\/bin\/zsh/g" /etc/passwd
 
+#### Add aliases to zshrc
+echo "Adding aliases to zshrc"
+if [ "$username" == "ngrogg" ]; then
+echo "alias wikitogit='bash ~/.scripts/wikitogit.sh'" >> /home/$username/.zshrc
+echo "alias wikifromgit='bash ~/.scripts/wikifromgit.sh'" >> /home/$username/.zshrc
+else
+echo "alias wikifromgit='bash ~/.scripts/wikifromgit.sh'" >> /home/$username/.zshrc
+fi
+
+#### If user doesn't want ZSH
+else
+echo "Skipping ZSH configuration"
+zshYes="no"
+fi
+
+
 ### Open vim to trigger installation of plugins 
-#### Review that section
+echo "Preparing to configure vim"
+echo "Do you want vim configured? y/n"
+read confirm
+
+if [ "$confirm" == "y" || "$confirm" == "Y" ]; then
+echo "Configuring Vim"
 cd /home/$username
+echo "This should install the plugins for vim"
 echo "Quit vim after installation finishes"
 sleep 5
 vim .vimrc
@@ -113,8 +155,16 @@ echo "Installing YouCompleteMe"
 cd .vim/plugged/YouCompleteMe/
 python3 install.py --clangd-completer
 
-## Configure vim wiki and linux academy repo
+else
+echo "Skipping vim configurations"
+fi
 
+## Configure vim wiki
+echo "Preparing to clone note repo"
+echo "Do you want the vimwiki note repo? y/n"
+read confirm
+
+if [ "$confirm" == "y" || "$confirm" == "Y" ]; then
 ### Clone vimwiki notes repo
 #### Permissions
 echo "Cloning notes from git repo"
@@ -135,23 +185,30 @@ cp /home/$username/Documents/gits/notes/*.wiki ~/vimwiki
 echo "Copying scripts from configs"
 mkdir /home/$username/.scripts
 if [ "$username" == "ngrogg" ]; then
-	cp /home/$username/Documents/gits/notes/backupwiki.sh /home/$username/.scripts/wikitogit.sh
-	cp /home/$username/Documents/gits/notes/restorewiki.sh /home/$username/.scripts/wikifromgit.sh
+cp /home/$username/Documents/gits/notes/backupwiki.sh /home/$username/.scripts/wikitogit.sh
+cp /home/$username/Documents/gits/notes/restorewiki.sh /home/$username/.scripts/wikifromgit.sh
 else
-	cp /home/$username/Documents/gits/notes/restorewiki.sh /home/$username/.scripts/wikifromgit.sh
+cp /home/$username/Documents/gits/notes/restorewiki.sh /home/$username/.scripts/wikifromgit.sh
 fi
 
-#### Add aliases to zshrc
-echo "Adding aliases to zshrc"
-if [ "$username" == "ngrogg" ]; then
-	echo "alias wikitogit='bash ~/.scripts/wikitogit.sh'" >> /home/$username/.zshrc
-	echo "alias wikifromgit='bash ~/.scripts/wikifromgit.sh'" >> /home/$username/.zshrc
-else
-	echo "alias wikifromgit='bash ~/.scripts/wikifromgit.sh'" >> /home/$username/.zshrc
+#### If user didn't take zsh, add alias to bashrc
+if [ "$zshYes" == "no" ]; then
+echo "Adding alias wikifromgit to update vimwiki from git repo to bashrc"
+echo "alias wikifromgit='bash ~/.scripts/wikifromgit.sh'" >> /home/$username/.bashrc
 fi
 
-## Reboot system
-#echo "Intial configuration complete, system will reboot in 5 seconds"
-echo "Initial configuration complete, reboot system to finish configuration"
-sleep 5
-#reboot
+#### If user doesn't want vimwiki configured
+else
+echo "Skipping vimwiki configuration"
+fi
+
+## Prompt for reboot
+echo "Initial configuration complete, system needs to be rebooted to finish configuration"
+echo "Would you like to reboot? y/n"
+read confirm
+
+if [ "$confirm" == "y" || "$confirm" == "Y" ]; then
+	sudo reboot
+else
+	echo "Please reboot when able"
+fi
