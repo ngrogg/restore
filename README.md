@@ -14,3 +14,5 @@ Guide from (here)[https://www.digitalocean.com/community/tutorials/how-to-instal
 **manjaro_restore.sh**, an in progress script used to restore my Manjaro system. <br>
 **slackware_restore.sh**, a script to restore my Slackware system <br>
 **fedora_restore.sh**, a script to restore my Fedora system <br>
+**fedora_restore_non_root.sh**, a mark two version of my Fedora script <br>
+**ubuntu_restore.sh**, A version of my Fedora script for Ubuntu <br>
