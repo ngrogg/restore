@@ -3,6 +3,8 @@
 # A BASH script used to restore my Fedora system
 # A version of the script designed to be run as a non-root user
 # This should be considered the MKII version
+# TODO
+# Update URLs for packages 
 
 ## Enter username to configure
 ### Assign output from bash command to variable
@@ -36,18 +38,20 @@ sudo dnf update -y && sudo dnf upgrade -y
 
 ### Install repo software 
 echo "Installing essential software"
-sudo dnf install liberation-fonts-1:2.1.0-1.fc32.noarch python3 qt5 zsh git autokey-gtk redshift cmake gcc-c++ make python3-devel python3-SecretStorage python3-crypto python3-cryptography python3-keyring python3-psutil python3-qt5 python3-requests-kerberos speedtest-cli neofetch gimp -y
+sudo dnf install liberation-fonts.noarch python3 qt5 zsh git autokey-gtk redshift cmake gcc-c++ make python3-devel python3-SecretStorage python3-crypto python3-cryptography python3-keyring python3-psutil python3-qt5 python3-requests-kerberos speedtest-cli neofetch gimp -y
 
 ### Install rpm software
 
 #### Download and Install Google Chrome
 cd /home/$username/Downloads
 echo "Downloading and installing Google Chrome"
+#### UPDATE URL ####
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
 sudo rpm -Uhv google-chrome-stable_current_x86_64.rpm
 
 #### Download and Install Nagstamon
 echo "Downloading and installing Nagstamon"
+#### UPDATE URL ####
 wget https://nagstamon.ifw-dresden.de/files/stable/nagstamon-3.4.1.fedora32-1.src.rpm
 sudo rpm -Uhv nagstamon-3.4.1.fedora32-1.src.rpm
 echo "Nagstamon will still need configured"
@@ -65,6 +69,7 @@ sudo snap install google-cloud-sdk --classic
 #### Install MotionPro
 echo "Downloading and installing MotionPro"
 cd /home/$username/Downloads
+#### UPDATE URL AND FILENAME ####
 wget https://www.hipaavault.com/ArrayNetworks/MotionPro_Linux_RedHat_x86-64_1.2.3.sh
 chmod +x MotionPro_Linux_RedHat_x86-64_1.2.3.sh
 sudo bash MotionPro_Linux_RedHat_x86-64_1.2.3.sh
