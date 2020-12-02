@@ -4,7 +4,7 @@
 # A version of the script designed to be run as a non-root user
 # This should be considered the MKII version
 # TODO
-# Update URLs for packages 
+# Double check URLs before running
 
 ## Enter username to configure
 ### Assign output from bash command to variable
@@ -70,9 +70,12 @@ sudo snap install google-cloud-sdk --classic
 echo "Downloading and installing MotionPro"
 cd /home/$username/Downloads
 #### UPDATE URL AND FILENAME ####
-wget https://www.hipaavault.com/ArrayNetworks/MotionPro_Linux_RedHat_x86-64_1.2.3.sh
-chmod +x MotionPro_Linux_RedHat_x86-64_1.2.3.sh
-sudo bash MotionPro_Linux_RedHat_x86-64_1.2.3.sh
+#wget https://www.hipaavault.com/ArrayNetworks/MotionPro_Linux_RedHat_x86-64_1.2.3.sh
+#chmod +x MotionPro_Linux_RedHat_x86-64_1.2.3.sh
+#sudo bash MotionPro_Linux_RedHat_x86-64_1.2.3.sh
+wget https://www.hipaavault.com/ArrayNetworks/MotionPro_Linux_RedHat_x64_v1.2.7_0608.sh
+chmod +x MotionPro_Linux_RedHat_x64_v1.2.7_0608.sh
+sudo bash MotionPro_Linux_RedHat_x64_v1.2.7_0608.sh
 echo "MotionPro will still need configured"
 echo "Autokey will still need to be configured"
 echo "redshift will still need to be configured"

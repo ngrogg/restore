@@ -3,9 +3,7 @@
 # A BASH script based on my Fedora script
 # Similar to Fedora script, but designed for DEB based distros
 # TODO
-# Change RPM to DEB file paths
-# Change DNF to APT 
-## Edit packagenames as needed 
+# Change packages names as needed from initial install
 
 ## Enter username to configure
 ### Assign output from bash command to variable
@@ -41,24 +39,19 @@ sudo apt update -y && sudo apt upgrade -y
 ### Install repo software 
 #### TODO, add correct file names
 echo "Installing essential software"
-sudo apt install liberation-fonts python3 qt5 zsh git autokey-gtk redshift cmake gcc-c++ make python3-devel python3-SecretStorage python3-crypto python3-cryptography python3-keyring python3-psutil python3-qt5 python3-requests-kerberos speedtest-cli neofetch gimp -y
+sudo apt install nagstamon liberation-fonts python3 qt5 zsh git autokey-gtk redshift cmake build-essential make python-dev speedtest-cli neofetch gimp -y
 
 ### Install rpm software
-#### TODO, change to correct deb/.sh files
 
 #### Download and Install Google Chrome
 cd /home/$username/Downloads
 echo "Downloading and installing Google Chrome"
-#### UPDATE URL ####
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-sudo rpm -Uhv google-chrome-stable_current_x86_64.rpm
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
 
-#### Download and Install Nagstamon
-echo "Downloading and installing Nagstamon"
-#### UPDATE URL ####
-wget https://nagstamon.ifw-dresden.de/files/stable/nagstamon-3.4.1.fedora32-1.src.rpm
-sudo rpm -Uhv nagstamon-3.4.1.fedora32-1.src.rpm
+echo "Nagstamon installed earlier"
 echo "Nagstamon will still need configured"
+sleep 5
 
 ### Enable SNAP classic
 echo "Installing snap store"
@@ -74,9 +67,9 @@ sudo snap install google-cloud-sdk --classic
 echo "Downloading and installing MotionPro"
 cd /home/$username/Downloads
 #### UPDATE URL AND FILENAME ####
-wget https://www.hipaavault.com/ArrayNetworks/MotionPro_Linux_RedHat_x86-64_1.2.3.sh
-chmod +x MotionPro_Linux_RedHat_x86-64_1.2.3.sh
-sudo bash MotionPro_Linux_RedHat_x86-64_1.2.3.sh
+wget https://www.hipaavault.com/ArrayNetworks/MotionPro_Linux_Ubuntu_x64_v1.2.7_0608.sh
+chmod +x MotionPro_Linux_Ubuntu_x64_v1.2.7_0608.sh
+sudo bash MotionPro_Linux_Ubuntu_x64_v1.2.7_0608.sh
 echo "MotionPro will still need configured"
 echo "Autokey will still need to be configured"
 echo "redshift will still need to be configured"
