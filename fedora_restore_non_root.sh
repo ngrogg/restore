@@ -38,7 +38,7 @@ if [ "$confirm" == "y" ] || [ "$confirm" == "Y" ]; then
 
 	### Install repo software 
 	echo "Installing essential software"
-	sudo dnf install liberation-fonts.noarch python3 qt5 zsh git autokey-gtk redshift cmake gcc-c++ make python3-devel python3-SecretStorage python3-crypto python3-cryptography python3-keyring python3-psutil python3-qt5 python3-requests-kerberos speedtest-cli neofetch gimp -y
+	sudo dnf install liberation-fonts.noarch python3 qt5 zsh git autokey-gtk redshift cmake gcc-c++ make python3-devel python3-SecretStorage python3-crypto python3-cryptography python3-keyring python3-psutil python3-qt5 python3-requests-kerberos speedtest-cli neofetch gimp rofi -y
 
 	### Install rpm software
 
