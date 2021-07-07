@@ -3,7 +3,6 @@
 # A BASH script to set up a generic LAMP stack and admin user
 # Must be run as root
 # Must be run on a CentOS box
-# Tested on CentOS 8, but 7 should work
 
 ## Verification checks
 echo "Checking some things first"
@@ -42,15 +41,15 @@ usermod -aG wheel $username
 ### Install software
 ### Enable extended CentOS repository
 echo "Enabling epel-release repo"
-dnf install epel-release
+yum install epel-release
 
 ### Apply updates first 
 echo "Updating and upgrading server"
-dnf update -y && dnf upgrade -y
+yum update -y && yum upgrade -y
 
 ### Install software
 echo "Installing LAMP specific software"
-dnf install php-mysqlnd firewalld httpd vim mariadb mariadb-server php mlocate -y
+yum install php-mysqlnd firewalld httpd vim mariadb mariadb-server php mlocate -y
 
 ### Configure installed software 
 echo "Configuring installed software"
