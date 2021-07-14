@@ -27,7 +27,7 @@ echo "Enter a username:"
 read username
 
 ### Create User with username
-echo "This will create username $username"
+echo "Creating username $username"
 adduser $username
 
 ### Set a user password
@@ -116,7 +116,7 @@ rm -rf wordpress
 ### Configure WordPress database (wp-config)
 cp /var/www/$siteName/wp-config-sample.php /var/www/$siteName/wp-config.php
 echo "Configuring database name"
-sed -i 's/database_name_here/$databaseName/g' /var/www/$siteName/wp-config.php
+sed -i "s/database_name_here/$databaseName/g" /var/www/$siteName/wp-config.php
 
 echo "Creating non-root database user"
 pass=$(date +%s | sha256sum | base64 | head -c 32 ; echo)
@@ -128,12 +128,12 @@ echo "Configuring database user"
 sed -i 's/username_here/wp_user/g' /var/www/$siteName/wp-config.php
 
 echo "Configuring database password"
-sed -i 's/password_here/$pass/g' /var/www/$siteName/wp-config.php
+sed -i "s/password_here/$pass/g" /var/www/$siteName/wp-config.php
 
 ### Configure virtualhost
 echo "Configuring Apache Virtualhost"
 cp example.com.conf /etc/httpd/conf.d/"$siteName".conf
-sed -i 's/example.com/$siteName/g' /etc/httpd/conf.d/"$siteName".conf
+sed -i "s/example.com/$siteName/g" /etc/httpd/conf.d/"$siteName".conf
 
 ### Provision SSL
 echo "Provisioning SSL"
