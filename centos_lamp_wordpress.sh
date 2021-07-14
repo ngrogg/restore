@@ -4,12 +4,6 @@
 # Must be run as root
 # Must be run on a CentOS box
 
-# TODO
-# Finish WordPress section
-## wp-config
-## Create non-root database user 
-## Configure wp-config.php to use the database user 
-
 ## Verification checks
 echo "Checking some things first"
 
@@ -55,22 +49,16 @@ yum update -y && yum upgrade -y
 
 ### Install software
 echo "Installing LAMP specific software"
-yum install php-mysqlnd firewalld httpd vim mariadb mariadb-server php mlocate certbot python-certbot-apache curl wget openssl -y
-
-### Install/configure yum-cron
-echo "Installing system specific software"
-yum install yum-cron -y
+yum install php-mysqlnd firewalld httpd vim mariadb mariadb-server php mlocate certbot python-certbot-apache curl wget openssl yum-cron -y
 
 ### Enable/start yum-cron
+echo "Configuring auto-update"
 systemctl enable yum-cron
 systemctl start yum-cron
 
 ### Edit yum-cron-hourly.conf
 sed -i 's/update_cmd = default/update_cmd = security/g' /etc/yum/yum-cron-hourly.conf
 sed -i 's/apply_updates = no/apply_updates = yes/g' /etc/yum/yum-cron-hourly.conf
-
-### Configure installed software 
-echo "Configuring installed software"
 
 ### Enable software to restart on reboot
 echo "Enabling software to restart if server reboots"
@@ -104,7 +92,6 @@ echo "Please enter the database name you'd like to use"
 read databaseName
 echo "Please enter the password you used to configure MySQL"
 read rootPass
-
 echo "Creating database"
 mysql --user=root --password="$rootpass" -e "CREATE DATABASE $databaseName"
 
