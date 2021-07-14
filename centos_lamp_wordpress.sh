@@ -131,14 +131,17 @@ cp /var/www/$siteName/wp-config-sample.php /var/www/$siteName/wp-config.php
 echo "Configuring database name"
 sed -i 's/database_name_here/$databaseName/g' /var/www/$siteName/wp-config.php
 
-echo "Creating database user"
-# TODO
+echo "Creating non-root database user"
+pass=$(date +%s | sha256sum | base64 | head -c 32 ; echo)
+mysql --user=root --password="$rootpass" -e "CREATE USER 'wp_user'@'localhost' IDENTIFIED BY $pass"
+mysql --user=root --password="$rootpass" -e "GRANT ALL ON $databaseName.* to 'wp_user@'localhost' IDENTIFIED BY $pass"
+mysql --user=root --password="$rootpass" -e "FLUSH PRIVILEGES"
 
 echo "Configuring database user"
-# TODO
+sed -i 's/username_here/wp_user/g' /var/www/$siteName/wp-config.php
 
 echo "Configuring database password"
-# TODO
+sed -i 's/password_here/$pass/g' /var/www/$siteName/wp-config.php
 
 ### Configure virtualhost
 echo "Configuring Apache Virtualhost"
