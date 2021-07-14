@@ -4,10 +4,11 @@
 # Must be run as root
 # Must be run on a CentOS box
 
-# TO DO
-## Configure yum-cron-hourly
-## Configure
-
+# TODO
+# Finish WordPress section
+## wp-config
+## Create non-root database user 
+## Configure wp-config.php to use the database user 
 
 ## Verification checks
 echo "Checking some things first"
@@ -54,7 +55,7 @@ yum update -y && yum upgrade -y
 
 ### Install software
 echo "Installing LAMP specific software"
-yum install php-mysqlnd firewalld httpd vim mariadb mariadb-server php mlocate -y
+yum install php-mysqlnd firewalld httpd vim mariadb mariadb-server php mlocate certbot python-certbot-apache curl wget openssl -y
 
 ### Install/configure yum-cron
 echo "Installing system specific software"
@@ -65,8 +66,8 @@ systemctl enable yum-cron
 systemctl start yum-cron
 
 ### Edit yum-cron-hourly.conf
-#sed -i 's/update_cmd = security/update_cmd = security/g' /etc/yum/yum-cron-hourly.conf
-#sed -i 's/apply_updates = no/apply_updates = yes/g' /etc/yum/yum-cron-hourly.conf
+sed -i 's/update_cmd = default/update_cmd = security/g' /etc/yum/yum-cron-hourly.conf
+sed -i 's/apply_updates = no/apply_updates = yes/g' /etc/yum/yum-cron-hourly.conf
 
 ### Configure installed software 
 echo "Configuring installed software"
@@ -108,10 +109,47 @@ echo "Creating database"
 mysql --user=root --password="$rootpass" -e "CREATE DATABASE $databaseName"
 
 ## PHP
-### Create sample php webpage
-echo "<?php phpinfo(); ?>" >> /var/www/html/phpinfo.php
+echo "Outputting PHP information"
+php -r 'phpinfo();'
 
-## WordPress 
-### Download WordPress
+## WordPress + Apache
+### Enter site name
+echo "Starting WordPress configuration"
+echo "Enter name of site 'i.e. domain.com', do NOT add www"
+read siteName
+mkdir /var/www/$siteName
+
+### Download WordPress + move it into place
+echo "Installing WordPress"
+wget https://wordpress.org/latest.zip
+unzip latest.zip
+mv wordpress/* /var/www/$siteName
+rm -rf wordpress
+
 ### Configure WordPress database (wp-config)
+cp /var/www/$siteName/wp-config-sample.php /var/www/$siteName/wp-config.php
+echo "Configuring database name"
+sed -i 's/database_name_here/$databaseName/g' /var/www/$siteName/wp-config.php
+
+echo "Creating database user"
+# TODO
+
+echo "Configuring database user"
+# TODO
+
+echo "Configuring database password"
+# TODO
+
 ### Configure virtualhost
+echo "Configuring Apache Virtualhost"
+cp example.com.conf /etc/httpd/conf.d/"$siteName".conf
+sed -i 's/example.com/$siteName/g' /etc/httpd/conf.d/"$siteName".conf
+
+### Provision SSL
+echo "Provisioning SSL"
+certbot -d $siteName -d www."$siteName"
+
+echo "Added renewal to cron weekly"
+echo "#\!$(which bash)" >> /etc/cron.weekly/ssl_renewal.sh
+echo "certbot --apache renew" >> /etc/cron.weekly/ssl_renewal.sh
+chmod 775 /etc/cron.weekly/ssl_renewal.sh
