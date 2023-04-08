@@ -1,13 +1,15 @@
 #!/usr/bin/bash
 
 # A BASH script to set up a generic LAMP stack and admin user
+# TODO Refactor to updated BASH prompt
 # Must be run as root
+# TODO Update for Rocky Linux 9
 # Must be run on a CentOS box
 
 ## Verification checks
 echo "Checking some things first"
 
-### Check if running as root 
+### Check if running as root
 if [ "$EUID" -ne 0 ]
 	then echo "Please run as root"
 	    exit
@@ -31,6 +33,7 @@ echo "This will create username $username"
 adduser $username
 
 ### Set a user password
+#TODO Hide password
 echo "Enter a password for $username"
 passwd $username
 
@@ -43,7 +46,7 @@ usermod -aG wheel $username
 echo "Enabling epel-release repo"
 yum install epel-release
 
-### Apply updates first 
+### Apply updates first
 echo "Updating and upgrading server"
 yum update -y && yum upgrade -y
 
@@ -51,7 +54,7 @@ yum update -y && yum upgrade -y
 echo "Installing LAMP specific software"
 yum install php-mysqlnd firewalld httpd vim mariadb mariadb-server php mlocate -y
 
-### Configure installed software 
+### Configure installed software
 echo "Configuring installed software"
 
 ### Enable software to restart on reboot
@@ -60,7 +63,7 @@ systemctl enable httpd
 systemctl enable mariadb
 systemctl enable firewalld
 
-### Activate software 
+### Activate software
 echo "Starting services"
 systemctl start httpd
 systemctl start mariadb
@@ -85,6 +88,7 @@ mysql_secure_installation
 echo "Please enter the database name you'd like to use"
 read databaseName
 echo "Please enter the password you used to configure MySQL"
+#TODO Hide input
 read rootPass
 
 echo "Creating database"
@@ -92,6 +96,4 @@ mysql --user=root --password="$rootpass" -e "CREATE DATABASE $databaseName"
 
 ## PHP
 ### Create sample php webpage
-echo "<?php" >> /var/www/html/phpinfo.php
-echo "phpinfo();" >> /var/www/html/phpinfo.php
-echo "?>" >> /var/www/html/phpinfo.php
+echo "<?php phpinfo() ?>" >> /var/www/html/phpinfo.php
