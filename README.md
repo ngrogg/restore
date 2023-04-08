@@ -10,8 +10,9 @@ When run as root the script creates an Admin user, enables the EPEL repo, instal
 and tools used by the system. During execution Services are enabled, and the firewall is configured.
 Finally, the script creates an empty MariaDB database with the name provided by the user. <br>
 PENDING: This script will be refactored for Rocky Linux.
-* **debian_lamp.sh***, a BASH script to create a LAMP stack on Deb based distros. <br>
-Guide from (here)[https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mariadb-php-lamp-stack-on-debian-10]<br>
+* **debian_lamp.sh***, a BASH script to create a LAMP stack on DEB based distros.
+Makes essentially the same configurations as above script but for DEB based distros. <br>
+PENDING: This script will be refactored for Debian 11.
 * **fedora_restore.sh**, a script to configure a Fedora system based on changes I typically make. <br>
 * **ubuntu_restore.sh**, A script to configure an Ubuntu system based on changes I typically make.<br>
 
